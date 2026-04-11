@@ -1,4 +1,4 @@
-package com.carApi.CarApi.security;
+package com.yazzeh.spring_security.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
