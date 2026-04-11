@@ -1,11 +1,12 @@
-package com.carApi.CarApi.security;
+package com.yazzeh.spring_security.security;
 
-import com.carApi.CarApi.dto.AuthResponse;
-import com.carApi.CarApi.dto.LoginRequest;
-import com.carApi.CarApi.dto.RegisterRequest;
-import com.carApi.CarApi.entities.User;
-import com.carApi.CarApi.enums.UserRole;
-import com.carApi.CarApi.repositories.UserRepository;
+
+import com.yazzeh.spring_security.dtos.AuthResponse;
+import com.yazzeh.spring_security.dtos.LoginRequest;
+import com.yazzeh.spring_security.dtos.RegisterRequest;
+import com.yazzeh.spring_security.enums.UserRole;
+import com.yazzeh.spring_security.model.User;
+import com.yazzeh.spring_security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request){
@@ -37,11 +37,9 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
         var accessToken = jwtService.generateToken(savedUser);
-        var refreshToken = refreshTokenService.createRefreshToken(savedUser.getEmail());
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken.getRefreshToken())
                 .name(savedUser.getName())
                 .email(savedUser.getEmail())
                 .build();
@@ -58,11 +56,9 @@ public class AuthService {
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found."));
         var accessToken = jwtService.generateToken(user);
-        var refreshToken = refreshTokenService.createRefreshToken(user.getEmail());
 
         return AuthResponse.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken.getRefreshToken())
                 .name(user.getName())
                 .email(user.getEmail())
                 .build();
