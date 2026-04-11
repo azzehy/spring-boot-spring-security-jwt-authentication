@@ -1,6 +1,6 @@
-package com.carApi.CarApi.config;
+package com.yazzeh.spring_security.config;
 
-import com.carApi.CarApi.security.AuthFilterService;
+import com.yazzeh.spring_security.security.AuthFilterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

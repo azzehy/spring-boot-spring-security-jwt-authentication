@@ -1,6 +1,6 @@
-package com.carApi.CarApi.config;
+package com.yazzeh.spring_security.config;
 
-import com.carApi.CarApi.repositories.UserRepository;
+import com.yazzeh.spring_security.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
-    private final UserRepository  userRepository;
+    private final UserRepository userRepository;
 
     public ApplicationConfig(UserRepository userRepository){
         this.userRepository = userRepository;
