@@ -1,14 +1,11 @@
-package com.carApi.CarApi.controller;
+package com.yazzeh.spring_security.controller;
 
-import com.carApi.CarApi.dto.AuthResponse;
-import com.carApi.CarApi.dto.LoginRequest;
-import com.carApi.CarApi.dto.RefreshTokenRequest;
-import com.carApi.CarApi.dto.RegisterRequest;
-import com.carApi.CarApi.entities.RefreshToken;
-import com.carApi.CarApi.entities.User;
-import com.carApi.CarApi.security.AuthService;
-import com.carApi.CarApi.security.JwtService;
-import com.carApi.CarApi.security.RefreshTokenService;
+
+import com.yazzeh.spring_security.dtos.AuthResponse;
+import com.yazzeh.spring_security.dtos.LoginRequest;
+import com.yazzeh.spring_security.dtos.RegisterRequest;
+import com.yazzeh.spring_security.security.AuthService;
+import com.yazzeh.spring_security.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-    private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
 
     @PostMapping("/register")
@@ -33,19 +29,5 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
         return ResponseEntity.ok(authService.login(loginRequest));
-    }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-
-        RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(refreshTokenRequest.getRefreshToken());
-        User user = refreshToken.getUser();
-
-        String accessToken = jwtService.generateToken(user);
-
-        return ResponseEntity.ok(AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken.getRefreshToken())
-                .build());
     }
 }
